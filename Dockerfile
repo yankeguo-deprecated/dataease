@@ -18,6 +18,41 @@ RUN cd src && \
     mvn -Pstage -B clean package
 
 ##############################
+# 构建 frontend
+##############################
+
+FROM ghcr.io/guoyk93/acicn/node:builder-16-debian-11 AS builder-frontend
+
+WORKDIR /workspace
+
+# 取消使用国内 registry，因为我要白嫖 Github Workflows
+RUN npm config delete registry && rm -rf /root/.pip
+
+ADD src src
+
+RUN cd src/frontend && \
+    npm install && \
+    npm run build:stage
+
+
+##############################
+# 构建 mobile
+##############################
+
+FROM ghcr.io/guoyk93/acicn/node:builder-16-debian-11 AS builder-mobile
+
+WORKDIR /workspace
+
+# 取消使用国内 registry，因为我要白嫖 Github Workflows
+RUN npm config delete registry && rm -rf /root/.pip
+
+ADD src src
+
+RUN cd src/mobile && \
+    npm install && \
+    npm run build:stage
+
+##############################
 # 构建 backend
 ##############################
 
@@ -35,4 +70,8 @@ ADD src/drivers         /opt/dataease/drivers
 
 WORKDIR /opt/dataease
 
-COPY --from=builder-background /workspace/src/backend/target/backend-${DATAEASE_VERSION}.jar dataease.jar
+# 构建产物
+COPY --from=builder-background /workspace/src/backend/target/backend-${DATAEASE_VERSION}.jar /opt/dataease/dataease.jar
+COPY --from=builder-frontend   /workspace/src/frontend/dist                                  /opt/dataease/frontend/dist
+COPY --from=builder-mobile     /workspace/src/mobile/dist                                    /opt/dataease/mobile/dist
+RUN mv /opt/dataease/mobile/dist/index.html /opt/dataease/mobile/dist/app.html
