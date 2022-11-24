@@ -1,0 +1,10 @@
+<settings>
+    <mirrors>
+        <mirror>
+            <id>fix-pentaho-public</id>
+            <mirrorOf>pentaho-public</mirrorOf>
+            <name>Fix Pentaho Public</name>
+            <url>https://repo.orl.eng.hitachivantara.com/artifactory/pnt-mvn</url>
+        </mirror>
+    </mirrors>
+</settings>

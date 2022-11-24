@@ -3,9 +3,11 @@ FROM ghcr.io/guoyk93/acicn/jdk:builder-8-maven-3.8-debian-11 AS builder-backgrou
 WORKDIR /workspace
 
 ADD src src
+ADD maven-settings.xml src/maven-settings.xml
 
 RUN cd src && \
-    mvn clean package -Pstage -B
+    cd backend && \
+    mvn --settings ../maven-settings.xml -Pstage -B clean package
 
 FROM ghcr.io/guoyk93/acicn/jdk:8
 
@@ -17,4 +19,4 @@ RUN apt-get update && \
 
 WORKDIR /opt/dataease
 
-COPY --from=builder-background /workspace/src/target/backend-${DATAEASE_VERSION}}.jar dataease.jar
+COPY --from=builder-background /workspace/src/backend/target/backend-${DATAEASE_VERSION}}.jar dataease.jar
