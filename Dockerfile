@@ -3,11 +3,10 @@ FROM ghcr.io/guoyk93/acicn/jdk:builder-8-maven-3.8-debian-11 AS builder-backgrou
 WORKDIR /workspace
 
 ADD src src
-ADD maven-settings.xml src/maven-settings.xml
 
 RUN cd src && \
     cd backend && \
-    mvn --settings ../maven-settings.xml -Pstage -B clean package
+    mvn -Pstage -B clean package
 
 FROM ghcr.io/guoyk93/acicn/jdk:8
 
