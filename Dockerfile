@@ -53,7 +53,7 @@ RUN cd src/mobile && \
     npm run build:stage
 
 ##############################
-# 构建 backend
+# 组装最终镜像
 ##############################
 
 FROM ghcr.io/guoyk93/acicn/jdk:8
