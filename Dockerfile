@@ -5,7 +5,7 @@ WORKDIR /workspace
 ADD src src
 
 RUN cd src && \
-    mvn clean package -Pstage
+    mvn clean package -Pstage -B
 
 FROM ghcr.io/guoyk93/acicn/jdk:8
 
