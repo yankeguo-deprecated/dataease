@@ -2,6 +2,11 @@ FROM ghcr.io/guoyk93/acicn/jdk:builder-8-maven-3.8-debian-11 AS builder-backgrou
 
 WORKDIR /workspace
 
+# install http://syslog4j.org/downloads/syslog4j-0.9.46-bin.jar
+RUN curl -sSL -o syslog4j.jar 'http://syslog4j.org/downloads/syslog4j-0.9.46-bin.jar' && \
+    mvn install:install-file -Dfile=./syslog4j.jar -DgroupId=org.syslog4j -DartifactId=syslog4j -Dpackaging=jar -Dversion=0.9.46 && \
+    rm -f syslog4j.jar
+
 ADD src src
 
 RUN cd src && \
