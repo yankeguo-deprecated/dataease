@@ -1,0 +1,22 @@
+name: nginx-create-run-dir
+kind: once
+command:
+  - mkdir
+  - -p
+  - /var/run/nginx
+  - /run/nginx
+---
+name: nginx-check-config
+kind: once
+dir: /
+command:
+  - /usr/sbin/nginx
+  - -t
+---
+name: nginx
+kind: daemon
+dir: /
+command:
+  - /usr/sbin/nginx
+  - -g
+  - "daemon off;"

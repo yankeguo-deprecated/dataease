@@ -75,3 +75,6 @@ COPY --from=builder-background /workspace/src/backend/target/backend-${DATAEASE_
 COPY --from=builder-frontend   /workspace/src/frontend/dist                                  /opt/dataease/frontend/dist
 COPY --from=builder-mobile     /workspace/src/mobile/dist                                    /opt/dataease/mobile/dist
 RUN mv /opt/dataease/mobile/dist/index.html /opt/dataease/mobile/dist/app.html
+
+# nginx 配置 和 minit 启动单元
+ADD etc /etc

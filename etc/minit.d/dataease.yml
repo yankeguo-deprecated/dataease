@@ -1,0 +1,7 @@
+kind: daemon
+name: dataease-backend
+dir: /opt/dataease
+command:
+  - java-wrapper
+  - -jar
+  - dataease.jar
